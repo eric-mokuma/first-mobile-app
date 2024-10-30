@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native'
+import { View, Text, TextInput, Alert, StyleSheet } from 'react-native'
+import Button from './Button'
 
 export default function Home({ navigation }) {
   const [playerNames, setPlayerNames] = useState(Array(2).fill(''))
@@ -32,7 +33,7 @@ export default function Home({ navigation }) {
           }}
         />
       ))}
-      <Button title="Start Game" onPress={handleStartGame} />
+      <Button onPress={handleStartGame}>Start Game</Button>
     </View>
   )
 }

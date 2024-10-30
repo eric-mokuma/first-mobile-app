@@ -5,7 +5,7 @@ export default function Home({ navigation }) {
   const [playerNames, setPlayerNames] = useState(Array(2).fill(''))
 
   const handleStartGame = () => {
-    if (playerNames[0].trim() && playerNames[1].trim()) {
+    if (playerNames.every((name) => name.trim())) {
       navigation.navigate('Game', { playerNames })
     } else {
       Alert.alert('Please enter names for both players.')

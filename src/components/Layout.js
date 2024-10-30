@@ -1,24 +1,15 @@
 import React from 'react'
 import { View, StyleSheet, Text } from 'react-native'
 import Header from './Header'
-import PlayerScore from './PlayerScore'
-import Board from './Board'
-import Button from './Button'
 import { useGameBoard } from '../hooks/useGameBoard'
 
 export default function Layout({ children }) {
-  const {
-    board,
-    currentPlayer,
-    isGameFinished,
-    winner,
-    handleChipClick,
-    restartGame,
-  } = useGameBoard()
+  const { isGameFinished, winner } = useGameBoard()
 
   return (
     <View style={styles.container}>
       <Header />
+      <Text style={styles.title}>CONNECT FOUR</Text>
       <View style={styles.content}>
         {isGameFinished && (
           <View style={styles.winMessage}>
@@ -27,15 +18,11 @@ export default function Layout({ children }) {
             </Text>
           </View>
         )}
-        <PlayerScore player="Player 1" score={0} color="red" />
-        <Board board={board} onChipClick={handleChipClick} />
-        <PlayerScore player="Player 2" score={0} color="yellow" />
       </View>
-      <View style={styles.buttonContainer}>
-        <Button onClick={restartGame}>Restart</Button>
-        <Button onClick={() => console.log('Leave Match')}>Leave Match</Button>
+      {children}
+      <View style={styles.footer}>
+        <Text style={styles.footerText}>Footer Content Here</Text>
       </View>
-      {children} {/* Render any child components passed to Layout */}
     </View>
   )
 }
@@ -45,6 +32,12 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     backgroundColor: '#fff',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginVertical: 10,
   },
   content: {
     flex: 1,
@@ -59,9 +52,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginBottom: 20,
+  footer: {
+    padding: 10,
+    backgroundColor: '#f8f8f8',
+    alignItems: 'center',
+  },
+  footerText: {
+    fontSize: 16,
+    color: '#333',
   },
 })

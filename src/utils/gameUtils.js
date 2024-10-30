@@ -1,14 +1,13 @@
 export const generateBoard = () => {
   const rows = 6
   const cols = 7
-  const board = Array.from({ length: rows }, (_, y) =>
+  return Array.from({ length: rows }, (_, y) =>
     Array.from({ length: cols }, (_, x) => ({
       value: null,
       position: { x, y },
       index: y * cols + x,
     }))
   )
-  return board
 }
 
 export const checkForPlayerWin = (board) => {

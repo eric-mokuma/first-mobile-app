@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { useGameBoard } from '../hooks/useGameBoard'
 import PlayerTurn from './PlayerTurn'
-import PlayerScore from './PlayerScore'
+import Button from './Button'
 
 export default function Game({ route, navigation }) {
   const { playerNames } = route.params
@@ -15,34 +15,12 @@ export default function Game({ route, navigation }) {
     restartGame,
   } = useGameBoard()
 
-  // Initialize scores for both players
-  const [scores, setScores] = useState([0, 0])
-
-  // Update scores when a player wins
-  useEffect(() => {
-    if (winner) {
-      console.log(`Winner detected: ${winner}`) // Log when a winner is detected
-      const updatedScores = [...scores]
-      const playerIndex = playerNames.indexOf(winner)
-      if (playerIndex !== -1) {
-        updatedScores[playerIndex] += 1 // Increment the score for the winning player
-        setScores(updatedScores) // Update the state with new scores
-        console.log(`Updated Scores: ${updatedScores}`) // Log updated scores
-      }
-    }
-  }, [winner, playerNames])
-
   const handleRestartGame = () => {
     restartGame()
   }
 
   const handleLeaveGame = () => {
     navigation.navigate('Home')
-  }
-
-  const handleGameEnd = (winningPlayer) => {
-    console.log(`Winner: ${winningPlayer}`) // Log the winner
-    setWinner(winningPlayer) // Set the winner
   }
 
   return (
@@ -73,24 +51,10 @@ export default function Game({ route, navigation }) {
           </View>
         ))}
       </View>
-      <PlayerScore player={playerNames[0]} score={scores[0]} color="red" />
-      <PlayerScore player={playerNames[1]} score={scores[1]} color="yellow" />
       {isGameFinished && (
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={styles.restartButton}
-            onPress={handleRestartGame}
-          >
-            <Text style={styles.restartButtonText}>Restart Game</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.leaveButton}
-            onPress={handleLeaveGame}
-          >
-            <Text style={styles.leaveButtonText}>Leave Game</Text>
-          </TouchableOpacity>
-        </View>
+        <Button onPress={handleRestartGame}>Restart Game</Button>
       )}
+      <Button onPress={handleLeaveGame}>Leave Game</Button>
     </View>
   )
 }
@@ -122,32 +86,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginVertical: 20,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginTop: 20,
-  },
-  restartButton: {
-    backgroundColor: '#007BFF',
-    padding: 10,
-    borderRadius: 5,
-    alignItems: 'center',
-  },
-  restartButtonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  leaveButton: {
-    backgroundColor: 'red',
-    padding: 10,
-    borderRadius: 5,
-    alignItems: 'center',
-  },
-  leaveButtonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
   },
 })
